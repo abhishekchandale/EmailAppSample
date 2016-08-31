@@ -9,7 +9,7 @@
         android:padding="5dp">
 
         <SearchView
-            android:id="@+id/retailer_live_search"
+            android:id="@+id/mail_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"

@@ -1,5 +1,7 @@
 package com.abhishekchandale.emailsample.fragments;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import com.abhishekchandale.emailsample.R;
 import com.abhishekchandale.emailsample.adapter.InBoxAdapter;
@@ -33,6 +36,7 @@ public class InBox extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private static final String TAG = InBox.class.getSimpleName();
     private static InBoxAdapter mAdapter = null;
+    private List<MessageModel> mMessageList = null;
 
     public InBox() {
 
@@ -60,6 +64,48 @@ public class InBox extends Fragment {
         } else {
             Log.d(TAG, "internet connection");
         }
+        if (MessageCrudOperations.getInstance().getAllMessage() != null) {
+            try {
+                mAdapter = new InBoxAdapter(MessageCrudOperations.getInstance().getAllMessage(), InBox.this);
+                mDataBinder.inboxList.setAdapter(mAdapter);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+//        try {
+//                mMessageList = MessageCrudOperations.getInstance().getAllMessage();
+//
+//                SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+//                mDataBinder.mailSearch.getRootView();//Notice that i change this
+//                mDataBinder.mailSearch.setSearchableInfo(
+//                        searchManager.getSearchableInfo(getActivity().getComponentName()));
+//
+//                mDataBinder.mailSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//                    @Override
+//                    public boolean onQueryTextSubmit(String query) {
+//                        return true;
+//                    }
+//
+//                    @Override
+//                    public boolean onQueryTextChange(String searchKey) {
+//                        mMessageList.clear();
+//                        for (MessageModel messageModel1 : mMessageList) {
+//                            if ((messageModel1.getSubject().toLowerCase().contains(searchKey))
+//                                    || (messageModel1.getParticipants() != null && messageModel1.getParticipants().contains(searchKey))) {
+//
+//                                mMessageList.add(messageModel1);
+//                            }
+//                        }
+//                        mAdapter = new InBoxAdapter(mMessageList, InBox.this);
+//                        mDataBinder.inboxList.setAdapter(mAdapter);
+//                        mAdapter.notifyDataSetChanged();
+//                        return false;
+//                    }
+//                });
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
     }
 
